@@ -98,8 +98,24 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/main.js"></script>
     <script>
+      const data = {
+        name: $("#name").value, //using jquery
+        email: document.getElementById("email").value, //using javascript
+        project: document.getElementById("project").value, //using javascript
+      };
+      let flag = 0;
+      Object.keys(data).forEach((key) => {
+        if (!data[key]) {
+          let msg = `Please Enter ${key}`;
+          console.log(msg);
+          alert(msg);
+          flag = 1;
+        }
+      });
+      if (flag) return;
+      console.log(data);
       function register() {
-        $.post("/register", { name: "Vasu" }, function (result) {
+        $.post("/register", data, function (result) {
           console.log(result);
           alert(result);
         });
