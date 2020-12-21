@@ -100,7 +100,8 @@
     <script>
       function register() {
         const data = {
-          name: $("#name").value, //using jquery
+          //name: $("#name").value, //using jquery
+          name: document.getElementById("name").value,
           email: document.getElementById("email").value, //using javascript
           project: document.getElementById("project").value, //using javascript
         };
