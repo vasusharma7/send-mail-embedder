@@ -10,13 +10,20 @@ import lombok.Data;
 public class users {
 
 	@Id
-	private String name;
-    private String email;
-    private String project;
+	public String Id;
+
+	public String name;
+	public String email;
+	public String project;
 
 	public users(String name, String email, String project) {
 		this.name = name;
 		this.email = email;
 		this.project = project;
 	}
+
+	public String print(users user) {
+		return String.format("%s %s %s %s", user.Id, user.name, user.email, user.project);
+	}
+
 }
