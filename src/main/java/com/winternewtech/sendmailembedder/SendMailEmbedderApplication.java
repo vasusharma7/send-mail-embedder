@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import com.winternewtech.sendmailembedder.users;
-//import com.winternewtech.CustomRepository;
 import com.winternewtech.sendmailembedder.userrepository;
 
 @SpringBootApplication
@@ -35,7 +34,7 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 	public String register(@RequestBody RegisterData data) {
 		System.out.println(String.format("%s %s %s", data.name, data.email, data.project));
 		repository.save(new users(data.name, data.email, data.project));
-		repository.findAll().forEach(u -> System.out.println(u));
+		//repository.findAll().forEach(u -> System.out.println(u));
 		return "hey";
 	}
 
