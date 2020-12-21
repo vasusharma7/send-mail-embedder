@@ -119,7 +119,11 @@
         // }
         // if (flag) return;
 
-        $.post("/register", data, function (result) {
+        $.post({
+          url: "/register",
+          data: JSON.stringify(data),
+          contentType: "application/json",
+        }).done(function (result) {
           console.log(result);
           alert(result);
         });
