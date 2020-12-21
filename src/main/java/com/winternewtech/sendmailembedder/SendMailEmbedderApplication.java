@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import com.winternewtech.sendmailembedder.users;
-//import com.winternewtech.CustomRepository;
 import com.winternewtech.sendmailembedder.userrepository;
 
 @SpringBootApplication
