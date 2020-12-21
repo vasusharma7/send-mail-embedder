@@ -1,6 +1,7 @@
 package com.winternewtech.sendmailembedder;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,8 +9,11 @@ import com.winternewtech.sendmailembedder.*;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.solr.SolrProperties;
+import org.springframework.data.convert.ClassGeneratingEntityInstantiator;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,6 +55,19 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 		List<users> record = repository.findUser(data.project, data.email);
 
 		return new Response(200, record.get(0).Id);
+	}
+
+	@PostMapping(value = "/send/{key}", consumes = "application/json", produces = "application/json")
+	public Response sendEmail(@PathVariable String key, @RequestBody Map<String, Object> data) {
+		System.out.println(key);
+		try {
+			Email.sendmail("vasusharma2017@outlook.com");
+		} catch (Exception e) {
+			System.out.println(e);
+			return new Response(400, e.getMessage());
+		}
+		return new Response(200, "success");
+
 	}
 
 }
