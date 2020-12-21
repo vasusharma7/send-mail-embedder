@@ -7,10 +7,13 @@ class RegisterData {
 
 }
 
-class RegisterService {
+class Response {
 
-    public static void saveRegisterData(RegisterData data) {
-        //
+    public String data;
+    public Integer status;
+
+    public Response(Integer status, String data) {
+        this.status = status;
+        this.data = data;
     }
-
 }

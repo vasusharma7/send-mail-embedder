@@ -1,5 +1,9 @@
 package com.winternewtech.sendmailembedder;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import com.winternewtech.sendmailembedder.*;
 
 import org.springframework.boot.SpringApplication;
@@ -31,13 +35,22 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 	}
 
 	@PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
-	public String register(@RequestBody RegisterData data) {
-		System.out.println(String.format("%s %s %s", data.name, data.email, data.project));
+	public Response register(@RequestBody RegisterData data, HttpServletResponse response) {
+		// System.out.println(String.format("%s %s %s", data.name, data.email,
+		// data.project));
+		List<users> dump = repository.findUser(data.project, data.email);
+		if (dump.size() != 0) {
+			return new Response(400, "User already exists");
+		}
+
 		repository.save(new users(data.name, data.email, data.project));
-		repository.findAll().forEach(u -> {
-			System.out.println(String.format("%s %s %s %s", u.name, u.Id, u.project, u.email));
-		});
-		return "hey";
+		// repository.findAll().forEach(u -> {
+		// System.out.println(String.format("%s %s %s %s", u.name, u.Id, u.project,
+		// u.email));
+		// });
+		List<users> record = repository.findUser(data.project, data.email);
+
+		return new Response(200, record.get(0).Id);
 	}
 
 }
