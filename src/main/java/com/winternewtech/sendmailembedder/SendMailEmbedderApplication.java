@@ -61,7 +61,7 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 	public Response sendEmail(@PathVariable String key, @RequestBody Map<String, Object> data) {
 		System.out.println(key);
 		try {
-			Email.sendmail("vasusharma2017@outlook.com");
+			Email.sendmail(new users("Vasu", "vasusharma2017@outlook.com", "test"), data);
 		} catch (Exception e) {
 			System.out.println(e);
 			return new Response(400, e.getMessage());

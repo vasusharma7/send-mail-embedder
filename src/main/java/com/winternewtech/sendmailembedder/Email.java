@@ -2,7 +2,9 @@ package com.winternewtech.sendmailembedder;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Map.Entry;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -17,7 +19,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 public class Email {
-    public static void sendmail(String recipient) throws AddressException, MessagingException, IOException {
+    public static void sendmail(users user, Map<String, Object> data)
+            throws AddressException, MessagingException, IOException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -32,16 +35,23 @@ public class Email {
         Message msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress("feedbackservice85@gmail.com", false));
 
-        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.email));
         msg.setSubject("Sample Email");
-        msg.setContent("Sample Email", "text/html");
+        msg.setContent(String.format("Hello %s", user.name), "text/html");
         msg.setSentDate(new Date());
 
-        MimeBodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setContent("Thats a new Email from spring boot", "text/html");
-
         Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(messageBodyPart);
+
+        for (Entry<String, Object> entry : data.entrySet()) {
+            MimeBodyPart section = new MimeBodyPart();
+            section.setContent(String.format("<b> %s </b> :", entry.getKey()), "text/html");
+            multipart.addBodyPart(section);
+
+            MimeBodyPart body = new MimeBodyPart();
+            body.setContent(String.format("%s <br/><br/>", entry.getValue()), "text/html");
+            multipart.addBodyPart(body);
+
+        }
 
         // MimeBodyPart attachPart = new MimeBodyPart();
         // attachPart.attachFile("/var/tmp/image19.png");
