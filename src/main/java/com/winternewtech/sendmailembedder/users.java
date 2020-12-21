@@ -10,9 +10,10 @@ import lombok.Data;
 public class users {
 
 	@Id
+	private String Id;
 	private String name;
-    private String email;
-    private String project;
+   	private String email;
+   	private String project;
 
 	public users(String name, String email, String project) {
 		this.name = name;
