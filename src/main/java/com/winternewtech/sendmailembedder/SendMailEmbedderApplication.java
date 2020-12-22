@@ -59,6 +59,22 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 		return new Response(200, record.get(0)._id);
 	}
 
+	@PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
+	public Response login(@RequestBody LoginData data, HttpServletResponse response) {
+		// System.out.println(String.format("%s %s %s", data.name, data.email,
+		// data.project));
+		var record = repository.findById(data.id);
+		if (record.isPresent()) {
+			users entity=record.get();
+			if (entity.email==data.email && entity.name==data.name){
+				System.out.println("ound");
+				return new Response(200, "Login Successfull");
+			}
+		}
+		System.out.println("not found");
+		return new Response(400, "Wrong Credentials");
+	}
+
 	@PostMapping(value = "/send/{key}")
 	public Response sendEmail(@PathVariable String key, @RequestBody Map<String, Object> data) {
 		System.out.println(key);

@@ -9,6 +9,13 @@ class RegisterData {
 
 }
 
+class LoginData {
+    public String id;
+    public String name;
+    public String email;
+
+}
+
 class Response {
 
     public String data;
