@@ -2,6 +2,7 @@ package com.winternewtech.sendmailembedder;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,14 +11,15 @@ import com.winternewtech.sendmailembedder.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.solr.SolrProperties;
-import org.springframework.data.convert.ClassGeneratingEntityInstantiator;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import com.winternewtech.sendmailembedder.users;
@@ -28,7 +30,7 @@ import com.winternewtech.sendmailembedder.userrepository;
 public class SendMailEmbedderApplication implements CommandLineRunner {
 
 	@Autowired
-	userrepository repository;
+	public userrepository repository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SendMailEmbedderApplication.class, args);
@@ -49,19 +51,29 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 
 		repository.save(new users(data.name, data.email, data.project));
 		// repository.findAll().forEach(u -> {
-		// System.out.println(String.format("%s %s %s %s", u.name, u.Id, u.project,
+		// System.out.println(String.format("%s %s %s %s", u.name, u._i`d, u.project,
 		// u.email));
 		// });
 		List<users> record = repository.findUser(data.project, data.email);
 
-		return new Response(200, record.get(0).Id);
+		return new Response(200, record.get(0)._id);
 	}
 
-	@PostMapping(value = "/send/{key}", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/send/{key}")
 	public Response sendEmail(@PathVariable String key, @RequestBody Map<String, Object> data) {
 		System.out.println(key);
 		try {
-			Email.sendmail(new users("Vasu", "vasusharma2017@outlook.com", "test"), data);
+
+			var record = repository.findById("5fe1a555b67c4a2a849088c0");
+
+			if (record.isPresent()) {
+				users entity = record.get();
+				System.out.println(entity);
+				Email.sendmail(entity, data);
+			} else {
+				System.out.println("not found");
+
+			}
 		} catch (Exception e) {
 			System.out.println(e);
 			return new Response(400, e.getMessage());
@@ -71,3 +83,9 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 	}
 
 }
+
+// if (u.isPresent()) {
+// System.out.println(u.get());
+// } else {
+// System.out.println("Employee not found!");
+// }

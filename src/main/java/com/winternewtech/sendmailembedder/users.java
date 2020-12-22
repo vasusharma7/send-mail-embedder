@@ -1,5 +1,6 @@
 package com.winternewtech.sendmailembedder;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,7 +11,7 @@ import lombok.Data;
 public class users {
 
 	@Id
-	public String Id;
+	public String _id;
 
 	public String name;
 	public String email;
@@ -23,7 +24,7 @@ public class users {
 	}
 
 	public String print(users user) {
-		return String.format("%s %s %s %s", user.Id, user.name, user.email, user.project);
+		return String.format("%s %s %s %s", user._id.toString(), user.name, user.email, user.project);
 	}
 
 }

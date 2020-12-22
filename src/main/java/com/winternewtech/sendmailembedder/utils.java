@@ -1,5 +1,7 @@
 package com.winternewtech.sendmailembedder;
 
+import org.springframework.data.annotation.Id;
+
 class RegisterData {
     public String name;
     public String email;
@@ -16,4 +18,15 @@ class Response {
         this.status = status;
         this.data = data;
     }
+}
+
+class Key {
+
+    @Id
+    public String Id;
+
+    public Key(String key) {
+        Id = key;
+    }
+
 }
