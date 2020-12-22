@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.winternewtech.sendmailembedder.*;
 
 import org.springframework.boot.SpringApplication;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.bson.types.ObjectId;
@@ -61,25 +63,48 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 
 	@PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
 	public Response login(@RequestBody LoginData data, HttpServletResponse response) {
-		// System.out.println(String.format("%s %s %s", data.name, data.email,
-		// data.project));
+
 		var record = repository.findById(data.id);
+		System.out.println(record);
 		if (record.isPresent()) {
-			users entity=record.get();
-			if (entity.email==data.email && entity.name==data.name){
-				System.out.println("ound");
-				return new Response(200, "Login Successfull");
+			users entity = record.get();
+			if (entity.email.equals(data.email) && entity.project.equals(data.project)) {
+				ObjectMapper mapper = new ObjectMapper();
+				System.out.println("found");
+				try {
+					return new Response(200, mapper.writeValueAsString(entity));
+				} catch (Exception e) {
+					return new Response(401, "Something went wrong !");
+				}
 			}
 		}
+
 		System.out.println("not found");
 		return new Response(400, "Wrong Credentials");
+	}
+
+	@PutMapping("/update")
+	public Response updateEmail(@RequestBody Map<String, Object> data) {
+		try {
+			users record = new users(data.get("name").toString(), data.get("email").toString(),
+					data.get("project").toString());
+			record.setId(data.get("_id").toString());
+
+			System.out.println(record.email);
+			repository.save(record);
+			ObjectMapper mapper = new ObjectMapper(); // used to convert object to JSON string to send back to fronend
+			return new Response(200, mapper.writeValueAsString(record));
+		} catch (Exception e) {
+			return new Response(200, "Something Went Wrong !");
+		}
+
 	}
 
 	@PostMapping(value = "/send/{key}")
 	public Response sendEmail(@PathVariable String key, @RequestBody Map<String, Object> data) {
 		System.out.println(key);
 		try {
-			key=key.replace("\n","");
+			key = key.replace("\n", "");
 			var record = repository.findById(key);
 
 			if (record.isPresent()) {
@@ -99,9 +124,3 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 	}
 
 }
-
-// if (u.isPresent()) {
-// System.out.println(u.get());
-// } else {
-// System.out.println("Employee not found!");
-// }

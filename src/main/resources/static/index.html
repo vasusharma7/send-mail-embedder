@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Sign Up</title>
+    <title>FeedBack Service | Sign Up</title>
 
     <!-- Font Icon -->
     <link
@@ -93,7 +93,9 @@
               <figure>
                 <img src="images/signup-image.jpg" alt="sign up image" />
               </figure>
-              <a href="/login.html" class="signup-image-link">I am already member</a>
+              <a href="/login.html" class="signup-image-link"
+                >I am already member</a
+              >
             </div>
           </div>
         </div>
@@ -106,7 +108,6 @@
     <script>
       function register() {
         const data = {
-          //name: $("#name").value, //using jquery
           name: document.getElementById("name").value,
           email: document.getElementById("email").value, //using javascript
           project: document.getElementById("project").value, //using javascript
@@ -114,16 +115,16 @@
         console.log(data);
         let flag = 0;
         let keys = Object.keys(data);
-        // for (let key of keys) {
-        //   if (!data[key]) {
-        //     let msg = `Please Enter ${key}`;
-        //     console.log(msg);
-        //     alert(msg);
-        //     flag = 1;
-        //     break;
-        //   }
-        // }
-        // if (flag) return;
+        for (let key of keys) {
+          if (!data[key]) {
+            let msg = `Please Enter ${key}`;
+            console.log(msg);
+            alert(msg);
+            flag = 1;
+            break;
+          }
+        }
+        if (flag) return;
 
         $.post({
           url: "/register",

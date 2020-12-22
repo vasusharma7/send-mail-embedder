@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Log In</title>
+    <title>FeedBack Service | Log In</title>
 
     <!-- Font Icon -->
     <link
@@ -23,44 +23,71 @@
   <body>
     <div class="main">
       <!-- Sign up form -->
+
       <section class="sign-in">
         <div class="container">
-            <div class="signin-content">
-                <div class="signin-image">
-                    <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
-                    <a href="/" class="signup-image-link">Create an account</a>
-                </div>
+          <div class="signin-content">
+            <div class="signin-image">
+              <figure>
+                <img src="images/signin-image.jpg" alt="sing up image" />
+              </figure>
+              <a href="/" class="signup-image-link">Create an account</a>
+            </div>
 
-                <div class="signin-form">
-                    <h2 class="form-title">Log in</h2>
-                        <div class="form-group">
-                            <label for="id"><i class="zmdi zmdi-lock"></i></label>
-                            <input type="text" name="id" id="id" placeholder="Your UniqueID"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                            <input type="text" name="name" id="name" placeholder="Name"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="email"><i class="zmdi zmdi-email"></i></label>
-                            <input type="text" name="email" id="email" placeholder="Email"/>
-                        </div>
-                        <div class="form-group form-button">
-                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" onClick="login()"/>
-                        </div>
-                    </form>
-                    <div class="social-login">
+            <div class="signin-form">
+              <h2 class="form-title">Log in</h2>
+              <div class="form-group">
+                <label for="id"><i class="zmdi zmdi-lock"></i></label>
+                <input
+                  type="text"
+                  name="id"
+                  id="id"
+                  placeholder="Your UniqueID"
+                />
+              </div>
+              <div class="form-group">
+                <label for="project"
+                  ><i class="zmdi zmdi-account material-icons-name"></i
+                ></label>
+                <input
+                  type="text"
+                  name="project"
+                  id="project"
+                  placeholder="Project"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
+                />
+              </div>
+              <div class="form-group form-button">
+                <input
+                  type="submit"
+                  name="signin"
+                  id="signin"
+                  class="form-submit"
+                  value="Log in"
+                  onClick="login()"
+                />
+              </div>
+
+              <!-- <div class="social-login">
                         <span class="social-label">Or login with</span>
                         <ul class="socials">
                             <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
                             <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
                             <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
                         </ul>
-                    </div>
-                </div>
+                    </div> -->
             </div>
+          </div>
         </div>
-    </section>
+      </section>
     </div>
 
     <!-- JS -->
@@ -69,14 +96,14 @@
     <script>
       function login() {
         const data = {
-          //name: $("#name").value, //using jquery
           id: document.getElementById("id").value,
-          name: document.getElementById("name").value,
+          project: document.getElementById("project").value,
           email: document.getElementById("email").value, //using javascript
         };
         console.log(data);
         let flag = 0;
         let keys = Object.keys(data);
+
         // for (let key of keys) {
         //   if (!data[key]) {
         //     let msg = `Please Enter ${key}`;
@@ -94,22 +121,17 @@
           contentType: "application/json",
         }).done(function (result) {
           console.log(result);
-          if (result.status == 200) {
-            document.getElementsByClassName("signin-form")[0].style.display =
-              "none";
-            document.getElementById(
-              "token"
-            ).innerText = `Unique Token Is ${result.data}`;
-            document.getElementById("result").style.display = "block";
-          } else {
-            document.getElementsByClassName("signin-form")[0].style.display =
-              "none";
-            document.getElementById("token").innerText = result.data;
-            document.getElementById("result").style.display = "block";
+          switch (result.status) {
+            case 200:
+              let data = JSON.parse(result.data);
+              localStorage.setItem("fs-info", JSON.stringify(data));
+              window.location = "/home.html";
+              break;
+            case 400:
+              alert(result.data);
           }
         });
       }
     </script>
   </body>
-  <!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

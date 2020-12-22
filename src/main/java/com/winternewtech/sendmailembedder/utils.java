@@ -11,9 +11,8 @@ class RegisterData {
 
 class LoginData {
     public String id;
-    public String name;
+    public String project;
     public String email;
-
 }
 
 class Response {
@@ -25,15 +24,4 @@ class Response {
         this.status = status;
         this.data = data;
     }
-}
-
-class Key {
-
-    @Id
-    public String Id;
-
-    public Key(String key) {
-        Id = key;
-    }
-
 }

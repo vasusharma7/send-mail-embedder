@@ -23,6 +23,10 @@ public class users {
 		this.project = project;
 	}
 
+	public void setId(String Id) {
+		this._id = Id;
+	}
+
 	public String print(users user) {
 		return String.format("%s %s %s %s", user._id.toString(), user.name, user.email, user.project);
 	}

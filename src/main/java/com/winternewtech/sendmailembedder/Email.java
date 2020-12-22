@@ -36,14 +36,15 @@ public class Email {
         msg.setFrom(new InternetAddress("feedbackservice85@gmail.com", false));
 
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.email));
-        msg.setSubject(String.format("Feedback for %s",user.project));
-        //msg.setContent(String.format("Hello %s", user.name), "text/html");
+        msg.setSubject(String.format("Feedback for %s", user.project));
+        // msg.setContent(String.format("Hello %s", user.name), "text/html");
         msg.setSentDate(new Date());
 
         Multipart multipart = new MimeMultipart();
 
         MimeBodyPart salutation = new MimeBodyPart();
-        salutation.setContent(String.format("Hello %s! <br> You've received the following feedback.<br>", user.name), "text/html");
+        salutation.setContent(String.format("Hello %s! <br> You've received the following feedback.<br>", user.name),
+                "text/html");
         multipart.addBodyPart(salutation);
 
         for (Entry<String, Object> entry : data.entrySet()) {
