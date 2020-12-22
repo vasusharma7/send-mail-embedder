@@ -26,6 +26,12 @@
       <section class="sign-in">
         <div class="container">
             <div class="signin-content">
+              <div id="result" style="display: none">
+                <h2
+                  id="token"
+                  style="text-align: center; align-self: center"
+                ></h2>
+              </div>
                 <div class="signin-image">
                     <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
                     <a href="/" class="signup-image-link">Create an account</a>
@@ -97,9 +103,7 @@
           if (result.status == 200) {
             document.getElementsByClassName("signin-form")[0].style.display =
               "none";
-            document.getElementById(
-              "token"
-            ).innerText = `Unique Token Is ${result.data}`;
+            document.getElementById("token").innerText = result.data;
             document.getElementById("result").style.display = "block";
           } else {
             document.getElementsByClassName("signin-form")[0].style.display =

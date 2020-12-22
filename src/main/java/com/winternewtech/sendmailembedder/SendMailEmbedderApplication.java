@@ -63,12 +63,17 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 	public Response login(@RequestBody LoginData data, HttpServletResponse response) {
 		// System.out.println(String.format("%s %s %s", data.name, data.email,
 		// data.project));
+		System.out.println(data.id);
 		var record = repository.findById(data.id);
 		if (record.isPresent()) {
 			users entity=record.get();
-			if (entity.email==data.email && entity.name==data.name){
-				System.out.println("ound");
-				return new Response(200, "Login Successfull");
+			System.out.println(entity.email);
+			System.out.println(entity.name);
+			System.out.println(data.email);
+			System.out.println(data.name);
+			if (entity.email.equals(data.email) && entity.name.equals(data.name)){
+				System.out.println("found");
+				return new Response(200, "Login Successful");
 			}
 		}
 		System.out.println("not found");
