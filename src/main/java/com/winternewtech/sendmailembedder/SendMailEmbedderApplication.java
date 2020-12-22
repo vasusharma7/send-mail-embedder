@@ -63,7 +63,6 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 
 	@PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
 	public Response login(@RequestBody LoginData data, HttpServletResponse response) {
-
 		var record = repository.findById(data.id);
 		System.out.println(record);
 		if (record.isPresent()) {
