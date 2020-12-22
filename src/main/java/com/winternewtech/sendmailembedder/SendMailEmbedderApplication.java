@@ -63,8 +63,8 @@ public class SendMailEmbedderApplication implements CommandLineRunner {
 	public Response sendEmail(@PathVariable String key, @RequestBody Map<String, Object> data) {
 		System.out.println(key);
 		try {
-
-			var record = repository.findById("5fe1a555b67c4a2a849088c0");
+			key=key.replace("\n","");
+			var record = repository.findById(key);
 
 			if (record.isPresent()) {
 				users entity = record.get();
