@@ -31,6 +31,18 @@
                 id="token"
                 style="text-align: center; align-self: center"
               ></h2>
+              <div style="padding: 2em" id="cred">
+                <h3>API Link for sending mail</h3>
+                <hr />
+                <button id="link" onclick="copy()"></button>
+                <br />
+                <br />
+                <span style="font-style: italic; font-size: 1.1em"
+                  >Please note that form data sent to the API for sending as
+                  Email should in
+                  <span style="color: red">appliaction/json </span>format
+                </span>
+              </div>
             </div>
             <div class="signup-form">
               <h2 class="form-title">Sign up</h2>
@@ -106,6 +118,17 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/main.js"></script>
     <script>
+      function copy() {
+        var text = document.getElementById("link").innerText;
+        navigator.clipboard.writeText(text).then(
+          function () {
+            alert("URL copied to clipboard");
+          },
+          function (err) {
+            alert("Something went wrong, could not be copied");
+          }
+        );
+      }
       function register() {
         const data = {
           name: document.getElementById("name").value,
@@ -137,13 +160,17 @@
               "none";
             document.getElementById(
               "token"
-            ).innerText = `Unique Token Is ${result.data}. Save for login!`;
+            ).innerText = `Unique Token Is ${result.data} Save for login!`;
             document.getElementById("result").style.display = "block";
+            document.getElementById(
+              "link"
+            ).innerHTML = `${window.location.host}/send/${result.data}`;
           } else {
             document.getElementsByClassName("signup-form")[0].style.display =
               "none";
             document.getElementById("token").innerText = result.data;
             document.getElementById("result").style.display = "block";
+            document.getElementById("cred").style.display = "none";
           }
         });
       }

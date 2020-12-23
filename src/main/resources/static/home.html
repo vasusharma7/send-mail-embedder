@@ -34,16 +34,6 @@
           all: unset;
         }
       }
-      #link {
-        border: 2px solid green;
-        padding: 10px;
-        font-size: 1.2em;
-        border-radius: 10px;
-        background-color: rgb(189, 235, 189);
-      }
-      #link:hover {
-        background-color: rgb(207, 245, 207);
-      }
     </style>
   </head>
   <body>
@@ -114,12 +104,6 @@
                 </span>
               </div>
             </div>
-            <div>
-              <h3>Link</h3>
-              <hr />
-
-              <h4 id="link"></h4>
-            </div>
             <button
               class="btn btn-info"
               style="height: max-content"
@@ -152,8 +136,6 @@
         document.getElementById("email").value = data.email;
         document.getElementById("project").innerHTML = data.project;
         document.getElementById("name").innerHTML = data.name;
-        document.getElementById("link").innerHTML = window.location.hostname+'/send/'+data._id;
-        
       }
     </script>
     <script>
