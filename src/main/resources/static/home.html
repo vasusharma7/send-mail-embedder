@@ -34,6 +34,16 @@
           all: unset;
         }
       }
+      #link {
+        border: 2px solid green;
+        padding: 10px;
+        font-size: 1.2em;
+        border-radius: 10px;
+        background-color: rgb(189, 235, 189);
+      }
+      #link:hover {
+        background-color: rgb(207, 245, 207);
+      }
     </style>
   </head>
   <body>
@@ -89,6 +99,20 @@
 
                 <h4 id="project"></h4>
               </div>
+              <hr />
+              <div>
+                <h3>API Link for sending mail</h3>
+                <hr />
+
+                <button id="link" onclick="copy()"></button>
+                <br />
+                <br />
+                <span style="font-style: italic; font-size: 1.1em"
+                  >Please note that form data sent to the API for sending as
+                  Email should in
+                  <span style="color: red">appliaction/json </span>format
+                </span>
+              </div>
             </div>
             <button
               class="btn btn-info"
@@ -116,12 +140,26 @@
         window.location = "/login.html";
       } else {
         data = JSON.parse(data);
+        document.getElementById(
+          "link"
+        ).innerHTML = `${window.location.host}/send/${data._id}`;
         document.getElementById("email").value = data.email;
         document.getElementById("project").innerHTML = data.project;
         document.getElementById("name").innerHTML = data.name;
       }
     </script>
     <script>
+      function copy() {
+        var text = document.getElementById("link").innerText;
+        navigator.clipboard.writeText(text).then(
+          function () {
+            alert("URL copied to clipboard");
+          },
+          function (err) {
+            alert("Something went wrong, could not be copied");
+          }
+        );
+      }
       function logout() {
         localStorage.removeItem("fs-info");
         window.location.reload();
