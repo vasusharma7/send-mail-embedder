@@ -90,6 +90,12 @@
                 <h4 id="project"></h4>
               </div>
             </div>
+            <div>
+              <h3>Link</h3>
+              <hr />
+
+              <h4 id="link"></h4>
+            </div>
             <button
               class="btn btn-info"
               style="height: max-content"
@@ -119,6 +125,8 @@
         document.getElementById("email").value = data.email;
         document.getElementById("project").innerHTML = data.project;
         document.getElementById("name").innerHTML = data.name;
+        document.getElementById("link").innerHTML = window.location.hostname+'/send/'+data._id;
+        
       }
     </script>
     <script>
